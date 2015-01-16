@@ -25,3 +25,16 @@ a, a:visited, a:hover, a:active {
 .selected {
     background-color: #aaaaaa;
 }
+
+.section {
+    padding-bottom: 7px;
+}
+
+.item {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+#custom_tests_input {
+    margin-bottom: 3px;
+}
