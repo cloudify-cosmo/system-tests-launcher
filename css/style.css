@@ -1,7 +1,5 @@
 body {
   font-family: Helvetica, sans-serif;
-  background: #ffffff;
-  color: #000000;
   padding-bottom: 10px;
 }
 
@@ -24,20 +22,6 @@ a, a:visited, a:hover, a:active {
     text-decoration: none;
 }
 
-#header {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.hide_block {
-    display: none;
-}
-
-.display_block {
-    display: block;
-}
-
 .selected {
     background-color: #aaaaaa;
 }
-
