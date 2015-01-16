@@ -11,7 +11,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     $scope.current_custom = {
       tests: []
     };
-    $scope.current_custom_tests = ''
+    $scope.current_custom_tests = '';
     $scope.suites.available = $scope.suites.all || [];
     $scope.configurations.available = $scope.configurations.all || [];
     $scope.tests.available = $scope.tests.all || [];
@@ -91,7 +91,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       $scope.current_custom.env = item.env;
 
       _.forEach($scope.configurations.all, function(v) {
-        v.class = ''
+        v.class = '';
       });
       item.class = 'selected';
     }
@@ -127,10 +127,10 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     }
 
     $scope.suites.available = _.filter($scope.suites.all, function(v) {
-      return !_.contains($scope.used_envs, v.env)
+      return !_.contains($scope.used_envs, v.env);
     });
     $scope.configurations.available = _.filter($scope.configurations.all, function(v) {
-      return !_.contains($scope.used_envs, v.env)
+      return !_.contains($scope.used_envs, v.env);
     });
     $scope.tests.available = _.filter($scope.tests.all, function(v) {
       return !_.any($scope.custom_suites, function(custom_suite) {
@@ -143,7 +143,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     });
     _.forEach($scope.custom_suites, function(v) {
       tests = _.map(v.tests, function(v2) { return v2.name; }).join(',');
-      config = v.configuration.name
+      config = v.configuration.name;
       descripor_suites.push(tests + '@' + config);
     });
 
@@ -151,7 +151,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
   }
 
   $scope.applyCustom = function() {
-    $scope.calculate({type: 'applyCustom'})
+    $scope.calculate({type: 'applyCustom'});
   };
 
   $scope.reloadSuitesYaml = function() {
