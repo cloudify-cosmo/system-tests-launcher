@@ -7,7 +7,7 @@
 }
 
 body {
-	margin: 0px;
+	margin: 0;
 }
 
 [class*='col-'] {
@@ -32,7 +32,7 @@ body {
 .grid-pad {
 	padding-top: 20px;
 	padding-left: 20px;
-	padding-right: 0px;
+	padding-right: 0;
 }
 
 .push-right {

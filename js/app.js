@@ -37,19 +37,19 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       v.name = k;
       return v;
     })
-  };
+  }
 
   function processSuitesYaml(response) {
+    var raw_suites_yaml;
     if (response.data.content) {
       raw_suites_yaml = Base64.decode(response.data.content);
     } else {
       raw_suites_yaml = response.data;
     }
-    suites_yaml = jsyaml.load(raw_suites_yaml);
+    var suites_yaml = jsyaml.load(raw_suites_yaml);
 
     $scope.configurations.all = _.map(toList(suites_yaml.handler_configurations), function(v) {
-      env = v.env || v.handler;
-      v.env = env;
+      v.env = v.env || v.handler;
       v.type = 'configuration';
       v.class = '';
       return v;
@@ -60,7 +60,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       return v;
     });
     $scope.suites.all = _.map(toList(suites_yaml.test_suites), function(v) {
-      handler_configuration = suites_yaml.handler_configurations[v.handler_configuration];
+      var handler_configuration = suites_yaml.handler_configurations[v.handler_configuration];
       v.env = handler_configuration.env;
       v.type = 'suite';
       return v;
@@ -70,14 +70,14 @@ function SystemTestsController($http, $scope, $timeout, $log) {
   }
 
   $scope.addCustomTests = function() {
-    tests = $scope.current_custom_tests.split(',');
+    var tests = $scope.current_custom_tests.split(',');
     tests = _.map(tests, function(v) {
       return {name: v, 'class': '', tests: [v], type: 'test' };
     });
     $scope.tests.all = $scope.tests.all.concat(tests);
     $scope.current_custom_tests = '';
     $scope.calculate({});
-  }
+  };
 
   $scope.calculate = function(item) {
     if (item.type === 'suite') {
@@ -97,7 +97,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     }
 
     if (item.type === 'test') {
-      currently_selected = item.class === 'selected';
+      var currently_selected = item.class === 'selected';
       if (currently_selected) {
         item.class = '';
         _.remove($scope.current_custom.tests, function(v) {
@@ -138,17 +138,17 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       });
     });
 
-    descripor_suites = _.map($scope.suites.selected, function(v) {
+    var descriptor_suites = _.map($scope.suites.selected, function(v) {
       return v.name
     });
     _.forEach($scope.custom_suites, function(v) {
-      tests = _.map(v.tests, function(v2) { return v2.name; }).join(',');
-      config = v.configuration.name;
-      descripor_suites.push(tests + '@' + config);
+      var tests = _.map(v.tests, function(v2) { return v2.name; }).join(',');
+      var config = v.configuration.name;
+      descriptor_suites.push(tests + '@' + config);
     });
 
-    $scope.descriptor = descripor_suites.join('#');
-  }
+    $scope.descriptor = descriptor_suites.join('#');
+  };
 
   $scope.applyCustom = function() {
     $scope.calculate({type: 'applyCustom'});
@@ -158,19 +158,18 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     loadSuitesYaml();
   };
 
-  loadSuitesYaml = function() {
-    suites_yaml_url = 'suites.yaml';
-    suites_yaml_url = 'https://api.github.com/repos/cloudify-cosmo/cloudify-system-tests/contents/suites/suites/suites.yaml?ref=' + $scope.branch;
+  var loadSuitesYaml = function() {
+    var suites_yaml_url = 'https://api.github.com/repos/cloudify-cosmo/cloudify-system-tests/contents/suites/suites/suites.yaml?ref=' + $scope.branch;
 
     $http.get(suites_yaml_url).then(function(response) {
         processSuitesYaml(response);
     }, function(error) {
       $log.error('unable to fetch suites.yaml');
     });
-  }
+  };
 
   loadSuitesYaml();
-};
+}
 
 (function() {
   angular.module("app", [])
