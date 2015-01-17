@@ -70,6 +70,16 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       var handler_configuration = suites_yaml.handler_configurations[v.handler_configuration];
       v.env = handler_configuration.env;
       v.type = 'suite';
+      v.tests = _.flatten(_.map(v.tests, function(test) {
+        test_group = _.find($scope.tests.all, function(v) {
+          return test === v.name;
+        });
+        if (test_group) {
+          return test_group.tests;
+        } else {
+          return 'cloudify-system-tests/' + test;
+        }
+      }));
       return v;
     });
 

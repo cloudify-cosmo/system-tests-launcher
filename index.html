@@ -29,7 +29,11 @@
           <h1>Suites</h1>
           <div ng-repeat="s in suites.available track by s.name"
                class="item">
-            <a href="" ng-click="calculate(s)">{{s.name}}</a>
+            <a href="" ng-click="calculate(s)"
+                       ng-mouseenter="overview(s, true)"
+                       ng-mouseleave="overview(s, false)">
+              {{s.name}}
+            </a>
           </div>
         </div>
         <div id="overview" class="col-1-2">
@@ -37,6 +41,15 @@
             <h1>{{t.name}}</h1>
             <ul><li ng-repeat="t2 in t.tests">
               {{t2}}
+            </li></ul>
+          </div>
+          <div ng-repeat="s in suites.all" id="{{s.type}}_{{s.name}}" class="hidden">
+            <h1>{{s.name}}</h1>
+            <div><span>Configuration: </span><span>{{s.handler_configuration}}</span></div>
+            <div><span>Environment: </span><span>{{s.env}}</span></div>
+            <div>Tests:</div>
+            <ul><li ng-repeat="t in s.tests">
+              {{t}}
             </li></ul>
           </div>
         </div>
