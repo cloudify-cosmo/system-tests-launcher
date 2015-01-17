@@ -52,6 +52,16 @@
               {{t}}
             </li></ul>
           </div>
+          <div ng-repeat="c in configurations.all" id="{{c.type}}_{{c.name}}" class="hidden">
+            <h1>{{c.name}}</h1>
+            <div><span>Environment: </span><span>{{c.env}}</span></div>
+            <div><span>Handler: </span><span>{{c.handler}}</span></div>
+            <div><span>External: </span><span>{{c.external.repo || 'internal'}}</span></div>
+            <div><span>Inputs: </span><span>{{c.inputs}}</span></div>
+            <div><span>Manager Blueprint: </span><span>{{c.manager_blueprint}}</span></div>
+            <div><span>Properties: </span><span>{{c.properties}}</span></div>
+            <div><span>Providers: </span><span>{{c.bootstrap_using_providers || false}}</span></div>
+          </div>
         </div>
       </div>
 
@@ -60,7 +70,11 @@
           <h1>Configurations</h1>
           <div ng-repeat="c in configurations.available track by c.name"
                class="item {{c.class}}">
-            <a href="" ng-click="calculate(c)">{{c.name}}</a>
+            <a href="" ng-click="calculate(c)"
+                       ng-mouseenter="overview(c, true)"
+                       ng-mouseleave="overview(c, false)">
+                {{c.name}}
+            </a>
           </div>
         </div>
         <div class="col-1-2">
