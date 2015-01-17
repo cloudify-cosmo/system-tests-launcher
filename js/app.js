@@ -106,6 +106,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       $scope.suites.selected.push(item);
       $scope.used_envs.push(item.env);
       $scope.used_envs = _.uniq($scope.used_envs);
+      $scope.overview(item, false);
     }
 
     if (item.type === 'configuration') {
