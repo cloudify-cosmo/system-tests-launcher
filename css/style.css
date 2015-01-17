@@ -36,6 +36,13 @@ a, a:visited, a:hover, a:active {
     padding-bottom: 1px;
 }
 
+.hidden {
+    display: none;
+}
+
 #custom_tests_input {
     margin-bottom: 3px;
+}
+
+#overview {
 }

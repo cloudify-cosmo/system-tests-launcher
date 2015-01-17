@@ -57,6 +57,13 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     $scope.tests.all = _.map(toList(suites_yaml.tests), function(v) {
       v.type = 'test';
       v.class = '';
+      repo = 'cloudify-system-tests';
+      if (v.external) {
+        repo = v.external.repo;
+      }
+      v.tests = _.map(v.tests, function(test) {
+        return repo + '/' + test;
+      });
       return v;
     });
     $scope.suites.all = _.map(toList(suites_yaml.test_suites), function(v) {
@@ -72,7 +79,12 @@ function SystemTestsController($http, $scope, $timeout, $log) {
   $scope.addCustomTests = function() {
     var tests = $scope.current_custom_tests.split(',');
     tests = _.map(tests, function(v) {
-      return {name: v, 'class': '', tests: [v], type: 'test' };
+      return {
+        name: v,
+        'class': '',
+        tests: ['cloudify-system-tests' + '/' + v],
+        type: 'test'
+      };
     });
     $scope.tests.all = $scope.tests.all.concat(tests);
     $scope.current_custom_tests = '';
@@ -149,6 +161,15 @@ function SystemTestsController($http, $scope, $timeout, $log) {
 
     $scope.descriptor = descriptor_suites.join('#');
   };
+
+  $scope.overview = function(item, show) {
+    elem = angular.element(document.getElementById(item.type + '_' + item.name));
+    if (show) {
+      elem.removeClass('hidden');
+    } else {
+      elem.addClass('hidden');
+    }
+  }
 
   $scope.applyCustom = function() {
     $scope.calculate({type: 'applyCustom'});
