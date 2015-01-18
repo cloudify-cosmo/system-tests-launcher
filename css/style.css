@@ -45,4 +45,5 @@ a, a:visited, a:hover, a:active {
 }
 
 #overview {
+    min-height: 150px;
 }
