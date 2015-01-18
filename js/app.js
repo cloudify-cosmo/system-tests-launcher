@@ -87,7 +87,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
   }
 
   $scope.addCustomTests = function() {
-    var tests = $scope.current_custom_tests.split(',');
+    var tests = _.uniq($scope.current_custom_tests.split(','));
     tests = _.map(tests, function(v) {
       return {
         name: v,
@@ -95,6 +95,10 @@ function SystemTestsController($http, $scope, $timeout, $log) {
         tests: ['cloudify-system-tests' + '/' + v],
         type: 'test'
       };
+    });
+    all_test_names = _.map($scope.tests.all, function(v) { return v.name; });
+    tests = _.filter(tests, function(test) {
+      return !_.contains(all_test_names, test.name);
     });
     $scope.tests.all = $scope.tests.all.concat(tests);
     $scope.current_custom_tests = '';
