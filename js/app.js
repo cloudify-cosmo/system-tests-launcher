@@ -114,7 +114,8 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     }
 
     if (item.type === 'configuration') {
-      $scope.current_custom.configuration = item;
+      $scope.current_custom.handler_configuration = item.name;
+      $scope.current_custom.name = item.name;
       $scope.current_custom.env = item.env;
 
       _.forEach($scope.configurations.all, function(v) {
@@ -137,7 +138,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     }
 
     if (item.type === 'applyCustom') {
-      if (!$scope.current_custom.configuration) {
+      if (!$scope.current_custom.handler_configuration) {
         alert('A handler configuration should be selected');
         return;
       }
@@ -170,7 +171,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     });
     _.forEach($scope.custom_suites, function(v) {
       var tests = _.map(v.tests, function(v2) { return v2.name; }).join(',');
-      var config = v.configuration.name;
+      var config = v.handler_configuration;
       descriptor_suites.push(tests + '@' + config);
     });
 
@@ -185,6 +186,11 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       elem.addClass('hidden');
     }
   }
+
+  $scope.descriptorOverview = function() {
+
+  }
+
 
   $scope.applyCustom = function() {
     $scope.calculate({type: 'applyCustom'});

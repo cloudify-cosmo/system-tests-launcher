@@ -19,10 +19,15 @@
       <span class="section col-1-1">
         <span>Branch</span>
         <input ng-model="branch" ng-enter="reloadSuitesYaml()">
-        <a href="" ng-click="reset()" class="push-right">Reset</a>
+        <span class="push-right">
+          <a href="" ng-click="descriptorOverview()">Descriptor Overview</a>
+          <span>|</span>
+          <a href="" ng-click="reset()">Reset</a>
+        </span>
       </span>
       <textarea class="section col-1-1"
-                ng-model="descriptor"></textarea>
+                ng-model="descriptor">
+      </textarea>
 
       <div class="section col-1-1">
         <div class="col-1-2">
@@ -62,6 +67,27 @@
             <div><span>Properties: </span><span>{{c.properties}}</span></div>
             <div><span>Providers: </span><span>{{c.bootstrap_using_providers || false}}</span></div>
           </div>
+          <div id="input_descriptor" class="hidden">
+            <div ng-repeat="s in suites.selected">
+              <h1>{{s.name}}</h1>
+              <div><span>Configuration: </span><span>{{s.handler_configuration}}</span></div>
+              <div><span>Environment: </span><span>{{s.env}}</span></div>
+              <div>Tests:</div>
+              <ul><li ng-repeat="t in s.tests">
+                {{t}}
+              </li></ul>
+            </div>
+            <div ng-repeat="s in custom_suites">
+              <h1>{{s.name}}</h1>
+              <div><span>Configuration: </span><span>{{s.handler_configuration}}</span></div>
+              <div><span>Environment: </span><span>{{s.env}}</span></div>
+              <div>Tests:</div>
+              <ul><span ng-repeat="t in s.tests">
+                <li ng-repeat="t2 in t.tests">
+                  {{t2}}
+                </li>
+              </span></ul>
+            </div>
         </div>
       </div>
 
