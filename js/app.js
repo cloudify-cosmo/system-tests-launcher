@@ -178,9 +178,12 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     $scope.descriptor = descriptor_suites.join('#');
   };
 
+  var descriptor_overview = angular.element(document.getElementById('input_descriptor'));
+
   $scope.overview = function(item, show) {
     elem = angular.element(document.getElementById(item.type + '_' + item.name));
     if (show) {
+      descriptor_overview.addClass('hidden');
       elem.removeClass('hidden');
     } else {
       elem.addClass('hidden');
@@ -188,9 +191,8 @@ function SystemTestsController($http, $scope, $timeout, $log) {
   }
 
   $scope.descriptorOverview = function() {
-
+    descriptor_overview.toggleClass('hidden');
   }
-
 
   $scope.applyCustom = function() {
     $scope.calculate({type: 'applyCustom'});
