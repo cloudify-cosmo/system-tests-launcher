@@ -62,13 +62,11 @@ input {
     margin-right: 5px;
 }
 
-h1 button {
+h1 > button {
     font-weight: normal;
-    font-size: 0.70em;
+    font-size: 0.65em;
 }
 
-button[disabled=disabled],
-button:disabled,
-input:disabled {
+:disabled {
     color: gray;
 }
