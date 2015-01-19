@@ -3,7 +3,7 @@
 Builds [cloudify-system-tests](https://github.com/cloudify-cosmo/cloudify-system-tests) launch descriptors.
 
 This readme describes the logic behind the descriptor building that happens in
-http://dankilman.github.io/system-tests-launcher/
+http://cloudify-cosmo.github.io/system-tests-launcher/
 
 ## Terminology
 - test suite refers to the preconfigured suites under 'test_suites' in suites.yaml
@@ -17,7 +17,7 @@ http://dankilman.github.io/system-tests-launcher/
 `hp_openstack_chef_puppet#hp_openstack_manager_status`
 ### single test group @ single suite
 `openstack_blueprints@hp_openstack_system_tests_region_a`
-### single tests section @ single suite 
+### single tests section @ single suite
 `cosmo_tester/test_suites/test_blueprints/hello_world_bash_test.py@hp_openstack_system_tests_region_a`
 ### 2 test groups @ single suite
 `openstack_blueprints_without_chef_puppet,openstack_chef_puppet_blueprints@hp_openstack_system_tests_region_a`
