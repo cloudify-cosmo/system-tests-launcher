@@ -53,3 +53,22 @@ ul {
 #overview {
     min-height: 150px;
 }
+
+#configuration_input {
+    width: 40%;
+}
+
+input {
+    margin-right: 5px;
+}
+
+h1 button {
+    font-weight: normal;
+    font-size: 0.70em;
+}
+
+button[disabled=disabled],
+button:disabled,
+input:disabled {
+    color: gray;
+}

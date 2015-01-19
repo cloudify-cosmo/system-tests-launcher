@@ -19,6 +19,12 @@
       <span class="section col-1-1">
         <span>Branch</span>
         <input ng-model="branch" ng-enter="reloadSuitesYaml()">
+
+        <span>Configuration</span>
+        <input disabled ng-model="configuration" id="configuration_input">
+
+        <button disabled>Launch</button>
+
         <span class="push-right">
           <a href="" ng-click="descriptorOverview()">Descriptor Overview</a>
           <span>|</span>
@@ -108,7 +114,7 @@
           <div class="col-1-1">
             <h1>
               <span>Tests</span>
-              <a href="" ng-click="applyCustom()" class="push-right">Apply Custom</a>
+              <button ng-click="applyCustom()" class="push-right">Apply Custom</button>
             </h1>
             <input id="custom_tests_input"
                    ng-model="current_custom_tests"

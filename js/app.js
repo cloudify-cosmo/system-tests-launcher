@@ -1,6 +1,7 @@
 function SystemTestsController($http, $scope, $timeout, $log) {
 
   $scope.branch = 'master';
+  $scope.configuration = 'root/cosmo/master/Tests/CoreSystemTests';
 
   $scope.reset = function() {
     $scope.suites.selected = [];
