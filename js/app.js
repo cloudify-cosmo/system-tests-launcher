@@ -205,12 +205,44 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     $http.get(suites_yaml_url).then(function(response) {
         processSuitesYaml(response);
     }, function(error) {
-      $log.error('unable to fetch suites.yaml');
+      $log.error('Unable to fetch ' + suites_yaml_url);
     });
   };
 
   $scope.launchConfiguration = function() {
-    $log.info('to be implemented');
+    var qb_rest_endpoint = 'http://192.168.9.18:8810/rest';
+    var qb_config_path_to_config_id = qb_rest_endpoint + '/ids?configuration_path=' + $scope.configuration;
+
+    $http.get(qb_config_path_to_config_id).then(function(response) {
+      $log.info('requesting build for configuration id: ' + response.data);
+      var coniguration_id = response.data;
+
+      var request_xml = '' +
+      '<com.pmease.quickbuild.BuildRequest>' +
+        '<configurationId>' + coniguration_id + '</configurationId>' +
+        '<respectBuildCondition>true</respectBuildCondition>' +
+        '<variables>' +
+          '<entry>' +
+            '<string>system_tests_branch</string>' +
+            '<string>' + $scope.branch + '</string>' +
+          '</entry>' +
+          '<entry>'+
+            '<string>system_tests_descriptor</string>' +
+            '<string>' + $scope.descriptor + '</string>' +
+          '</entry>' +
+        '</variables>' +
+      '</com.pmease.quickbuild.BuildRequest>';
+
+      var qb_build_request = qb_rest_endpoint + '/build_requests';
+      $http.post(qb_build_request, {withCredentials: true, data: request_xml}).then(function (response) {
+        $log.info(response.data);
+        // TODO: redirect to build page in quickbuild
+      }, function(error) {
+        $log.error('Failed launching configuration ' + $scope.configuration);
+      });
+    }, function(error) {
+      $log.error('Failed getting configuration id for ' + $scope.configuration);
+    });
   };
 
   $scope.loadSuitesYaml();
