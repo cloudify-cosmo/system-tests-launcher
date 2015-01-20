@@ -189,21 +189,17 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     } else {
       elem.addClass('hidden');
     }
-  }
+  };
 
   $scope.descriptorOverview = function() {
     descriptor_overview.toggleClass('hidden');
-  }
+  };
 
   $scope.applyCustom = function() {
     $scope.calculate({type: 'applyCustom'});
   };
 
-  $scope.reloadSuitesYaml = function() {
-    loadSuitesYaml();
-  };
-
-  var loadSuitesYaml = function() {
+  $scope.loadSuitesYaml = function() {
     var suites_yaml_url = 'https://api.github.com/repos/cloudify-cosmo/cloudify-system-tests/contents/suites/suites/suites.yaml?ref=' + $scope.branch;
 
     $http.get(suites_yaml_url).then(function(response) {
@@ -213,7 +209,11 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     });
   };
 
-  loadSuitesYaml();
+  $scope.launchConfiguration = function() {
+    $log.info('to be implemented');
+  };
+
+  $scope.loadSuitesYaml();
 }
 
 (function() {

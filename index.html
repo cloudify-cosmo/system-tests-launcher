@@ -18,12 +18,12 @@
 
       <span class="section col-1-1">
         <span>Branch</span>
-        <input ng-model="branch" ng-enter="reloadSuitesYaml()">
+        <input ng-model="branch" ng-enter="loadSuitesYaml()">
 
         <span>Configuration</span>
         <input disabled ng-model="configuration" id="configuration_input">
 
-        <button disabled>Launch</button>
+        <button disabled ng-click="launchConfiguration()">Launch</button>
 
         <span class="push-right">
           <a href="" ng-click="descriptorOverview()">Descriptor Overview</a>
