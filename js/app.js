@@ -218,20 +218,24 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       $log.info('requesting build for configuration id: ' + response.data);
       var coniguration_id = response.data;
 
+      var variables = [{ key: 'system_tests_branch',
+                         val: $scope.branch},
+                       { key: 'system_tests_descriptor',
+                         val: $scope.descriptor }];
+
+      var variables_xml = _.reduce(variables, function(current, variable) {
+        return current +
+          '<entry>' +
+            '<string>' + variable.key + '</string>' +
+            '<string>' + variable.val + '</string>' +
+          '</entry>'
+      }, '');
+
       var request_xml = '' +
       '<com.pmease.quickbuild.BuildRequest>' +
         '<configurationId>' + coniguration_id + '</configurationId>' +
         '<respectBuildCondition>true</respectBuildCondition>' +
-        '<variables>' +
-          '<entry>' +
-            '<string>system_tests_branch</string>' +
-            '<string>' + $scope.branch + '</string>' +
-          '</entry>' +
-          '<entry>'+
-            '<string>system_tests_descriptor</string>' +
-            '<string>' + $scope.descriptor + '</string>' +
-          '</entry>' +
-        '</variables>' +
+        '<variables>' + variables_xml + '</variables>' +
       '</com.pmease.quickbuild.BuildRequest>';
 
       var qb_build_request = qb_rest_endpoint + '/build_requests';
