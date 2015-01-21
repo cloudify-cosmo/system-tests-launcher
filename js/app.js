@@ -210,7 +210,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
   };
 
   $scope.launchConfiguration = function() {
-    var qb_rest_endpoint = 'http://192.168.9.18:8810/rest';
+    var qb_rest_endpoint = 'http://192.168.41.175:9000/rest';
     var qb_config_path_to_config_id = qb_rest_endpoint + '/ids?configuration_path=' + $scope.configuration;
 
     $http.get(qb_config_path_to_config_id).then(function(response) {
@@ -234,7 +234,11 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       '</com.pmease.quickbuild.BuildRequest>';
 
       var qb_build_request = qb_rest_endpoint + '/build_requests';
-      $http.post(qb_build_request, {withCredentials: true, data: request_xml}).then(function (response) {
+      $http({
+          url: qb_build_request,
+          method: 'POST',
+          withCredentials: true,
+          data: request_xml}).then(function (response) {
         $log.info(response.data);
         // TODO: redirect to build page in quickbuild
       }, function(error) {
