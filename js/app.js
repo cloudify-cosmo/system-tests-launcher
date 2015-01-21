@@ -210,6 +210,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
   };
 
   $scope.launchConfiguration = function() {
+    var qb_endpoint = 'http://192.168.9.18:8810'
     var qb_rest_endpoint = 'http://192.168.41.175:9000/rest';
     var qb_config_path_to_config_id = qb_rest_endpoint + '/ids?configuration_path=' + $scope.configuration;
 
@@ -239,8 +240,7 @@ function SystemTestsController($http, $scope, $timeout, $log) {
           method: 'POST',
           withCredentials: true,
           data: request_xml}).then(function (response) {
-        $log.info(response.data);
-        // TODO: redirect to build page in quickbuild
+        window.location = qb_endpoint + '/overview/' + coniguration_id;
       }, function(error) {
         $log.error('Failed launching configuration ' + $scope.configuration);
       });
