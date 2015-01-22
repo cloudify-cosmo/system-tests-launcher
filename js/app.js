@@ -223,13 +223,13 @@ function SystemTestsController($http, $scope, $timeout, $log) {
                        { key: 'system_tests_descriptor',
                          val: $scope.descriptor }];
 
-      var variables_xml = _.reduce(variables, function(current, variable) {
-        return current +
-          '<entry>' +
-            '<string>' + variable.key + '</string>' +
-            '<string>' + variable.val + '</string>' +
-          '</entry>'
-      }, '');
+      var variables_xml = _.map(variables, function(v) {
+        return '' +
+        '<entry>' +
+          '<string>' + v.key + '</string>' +
+          '<string>' + v.val + '</string>' +
+        '</entry>';
+      }).join('');
 
       var request_xml = '' +
       '<com.pmease.quickbuild.BuildRequest>' +
