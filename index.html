@@ -116,7 +116,9 @@
         <div class="col">
           <h1>
             <span>Tests</span>
-            <button ng-click="applyCustom()" class="push-right">Apply Custom</button>
+            <button ng-click="applyCustom()"
+                    ng-disabled="current_custom.tests.length === 0 || !current_custom.handler_configuration"
+                    class="push-right">Apply Custom</button>
           </h1>
           <input id="custom_tests_input"
                  ng-model="current_custom_tests"

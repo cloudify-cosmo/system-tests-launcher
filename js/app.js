@@ -139,14 +139,6 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     }
 
     if (item.type === 'applyCustom') {
-      if (!$scope.current_custom.handler_configuration) {
-        alert('A handler configuration should be selected');
-        return;
-      }
-      if ($scope.current_custom.tests.length == 0) {
-        alert('At least one test should be selected');
-        return;
-      }
       $scope.used_envs.push($scope.current_custom.env);
       $scope.used_envs = _.uniq($scope.used_envs);
       $scope.custom_suites.push($scope.current_custom);
