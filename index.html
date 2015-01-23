@@ -43,10 +43,11 @@
         <div class="col-1-2">
           <h1>Suites</h1>
           <div ng-repeat="s in suites.available track by s.name"
+               ng-click="calculate(s)"
+               ng-mouseenter="overview(s, true)"
+               ng-mouseleave="overview(s, false)"
                class="item">
-            <a href="" ng-click="calculate(s)"
-                       ng-mouseenter="overview(s, true)"
-                       ng-mouseleave="overview(s, false)">
+            <a href="">
               {{s.name}}
             </a>
           </div>
@@ -105,12 +106,13 @@
         <div class="col-1-2">
           <h1>Configurations</h1>
           <div ng-repeat="c in configurations.available track by c.name"
-               class="item {{c.class}}">
-            <a href="" ng-click="calculate(c)"
-                       ng-mouseenter="overview(c, true)"
-                       ng-mouseleave="overview(c, false)">
-                {{c.name}}
-            </a>
+               ng-click="calculate(c)"
+               ng-mouseenter="overview(c, true)"
+               ng-mouseleave="overview(c, false)"
+               class="item">
+            <input name="configuration" type="radio"
+                   ng-checked="c.class == 'selected'">
+            <a href="">{{c.name}}</a>
           </div>
         </div>
         <div class="col-1-2">
@@ -123,12 +125,13 @@
                    ng-model="current_custom_tests"
                    ng-enter="addCustomTests()" class="col-1-1">
             <div ng-repeat="t in tests.available track by t.name"
-                 class="item {{t.class}}">
-              <a href="" ng-click="calculate(t)"
-                         ng-mouseenter="overview(t, true)"
-                         ng-mouseleave="overview(t, false)">
-                 {{t.name}}
-              </a>
+                 ng-click="calculate(t)"
+                 ng-mouseenter="overview(t, true)"
+                 ng-mouseleave="overview(t, false)"
+                 class="item">
+              <input type="checkbox"
+                     ng-checked="t.class == 'selected'">
+              <a href="">{{t.name}}</a>
             </div>
           </div>
         </div>

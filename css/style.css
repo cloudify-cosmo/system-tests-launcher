@@ -11,6 +11,11 @@ h1 {
     font-size: 1.5em;
 }
 
+h1 > button {
+    font-weight: normal;
+    font-size: 0.65em;
+}
+
 a, a:visited {
     color: blue;
 }
@@ -29,8 +34,16 @@ ul {
     padding-left: 15px;
 }
 
-.selected {
-    background-color: #aaaaaa;
+input {
+    margin-right: 5px;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    vertical-align: bottom;
+}
+
+:disabled {
+    color: gray;
 }
 
 .section {
@@ -40,6 +53,11 @@ ul {
 .item {
     padding-top: 1px;
     padding-bottom: 1px;
+}
+
+.item:hover {
+    background-color: #dddddd;
+    cursor: pointer;
 }
 
 .hidden {
@@ -56,17 +74,4 @@ ul {
 
 #configuration_input {
     width: 40%;
-}
-
-input {
-    margin-right: 5px;
-}
-
-h1 > button {
-    font-weight: normal;
-    font-size: 0.65em;
-}
-
-:disabled {
-    color: gray;
 }
