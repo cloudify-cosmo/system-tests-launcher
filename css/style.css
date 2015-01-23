@@ -22,12 +22,6 @@ body {
     padding-right: 0;
 }
 
-.grid:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 h1 {
     padding: 0;
     margin-top: 2px;
@@ -90,7 +84,7 @@ input[type="radio"], input[type="checkbox"] {
     width: 50%;
 }
 
-.left {
+.left-col {
     padding-right: 5px;
 }
 
@@ -108,8 +102,10 @@ input[type="radio"], input[type="checkbox"] {
     display: none;
 }
 
-#top_right {
-    vertical-align: middle;
+/* Hack to have a right float share input css properties */
+.vertical_align_input_hack {
+    width: 0;
+    visibility: hidden;
 }
 
 #custom_tests_input {

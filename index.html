@@ -23,8 +23,8 @@
 
         <button ng-disabled="branch.length === 0 || descriptor.length === 0"
                 ng-click="launchConfiguration()">Launch</button>
-
-        <span id="top_right" class="push-right">
+        <span class="push-right">
+          <input class="vertical_align_input_hack">
           <a href="">Variables</a>
           <span>|</span>
           <a href="" ng-click="descriptorOverview()">Descriptor Overview</a>
@@ -38,7 +38,7 @@
       </textarea>
 
       <div class="section">
-        <div class="col left">
+        <div class="col left-col">
           <h1>Suites</h1>
           <div ng-repeat="s in suites.available track by s.name"
                ng-click="calculate(s)"
@@ -101,7 +101,7 @@
       </div>
 
       <div class="section">
-        <div class="col left">
+        <div class="col left-col">
           <h1>Configurations</h1>
           <div ng-repeat="c in configurations.available track by c.name"
                ng-click="calculate(c)"
