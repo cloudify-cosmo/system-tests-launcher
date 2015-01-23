@@ -1,4 +1,4 @@
-function SystemTestsController($http, $scope, $timeout, $log) {
+function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
 
   $scope.branch = 'master';
   $scope.configuration = 'root/cosmo/master/Tests/CoreSystemTests';
@@ -142,6 +142,13 @@ function SystemTestsController($http, $scope, $timeout, $log) {
       $scope.used_envs.push($scope.current_custom.env);
       $scope.used_envs = _.uniq($scope.used_envs);
       $scope.custom_suites.push($scope.current_custom);
+      $scope.overview({
+        type: 'configuration',
+        name: $scope.current_custom.handler_configuration}, false);
+      _.forEach($scope.current_custom.tests, function(v) {
+        $scope.overview({type: 'test', name: v.name}, false);
+      });
+
       $scope.current_custom = {
         tests: []
       };
@@ -171,10 +178,14 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     $scope.descriptor = descriptor_suites.join('#');
   };
 
-  var descriptor_overview = angular.element(document.getElementById('input_descriptor'));
+
+  function overviewElement(type, name) {
+    return angular.element(document.getElementById(type + '_' + name));
+  }
+  var descriptor_overview = overviewElement('input', 'descriptor');
 
   $scope.overview = function(item, show) {
-    elem = angular.element(document.getElementById(item.type + '_' + item.name));
+    elem = overviewElement(item.type, item.name);
     if (show) {
       descriptor_overview.addClass('hidden');
       elem.removeClass('hidden');
@@ -245,11 +256,22 @@ function SystemTestsController($http, $scope, $timeout, $log) {
     });
   };
 
+  hotkeys.add({
+    combo: 'a c',
+    description: 'Apply Custom Suite',
+    callback: function() {
+      if ($scope.current_custom.tests.length > 0 &&
+          $scope.current_custom.handler_configuration) {
+        $scope.applyCustom();
+      }
+    }
+  })
+
   $scope.loadSuitesYaml();
 }
 
 (function() {
-  angular.module("app", [])
+  angular.module("app", ['cfp.hotkeys'])
     .controller("SystemTestsController", SystemTestsController)
     .directive('ngEnter', function() {
       return function(scope, element, attrs) {
