@@ -256,6 +256,8 @@ function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
     });
   };
 
+  $scope.loadSuitesYaml();
+
   hotkeys.add({
     combo: 'a c',
     description: 'Apply Custom Suite',
@@ -266,8 +268,16 @@ function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
       }
     }
   })
+  hotkeys.add({
+    combo: 'l l',
+    description: 'Launch Configuration in QuickBuild',
+    callback: function() {
+      if ($scope.branch.length > 0 && $scope.descriptor.length > 0) {
+        $scope.launchConfiguration();
+      }
+    }
+  })
 
-  $scope.loadSuitesYaml();
 }
 
 (function() {
