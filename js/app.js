@@ -3,11 +3,21 @@ function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
   $scope.branch = 'master';
   $scope.configuration = 'root/cosmo/master/Tests/CoreSystemTests';
 
+  function resetSearch() {
+    $scope.search_input = '';
+    $scope.search_items = [];
+    $scope.search_result = [];
+    $scope.search_label = '';
+    $scope.search_selection = null;
+    $scope.search_selection_index = 0;
+  }
+
   $scope.reset = function() {
     $scope.suites.selected = [];
     $scope.custom_suites = [];
     $scope.used_envs = [];
     $scope.descriptor = '';
+    resetSearch();
 
     $scope.current_custom = {
       tests: []
@@ -258,6 +268,13 @@ function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
 
   $scope.loadSuitesYaml();
 
+  $scope.loseFocus = function() {
+    // take textarea element and focus/blur on it
+    var descriptor = document.getElementById('descriptor');
+    descriptor.focus();
+    descriptor.blur();
+  }
+
   hotkeys.add({
     combo: 'a c',
     description: 'Apply Custom Suite',
@@ -267,7 +284,7 @@ function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
         $scope.applyCustom();
       }
     }
-  })
+  });
   hotkeys.add({
     combo: 'l l',
     description: 'Launch Configuration in QuickBuild',
@@ -276,7 +293,165 @@ function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
         $scope.launchConfiguration();
       }
     }
-  })
+  });
+
+ hotkeys.add({
+    combo: 'r r',
+    description: 'Reset',
+    callback: function() {
+      $scope.reset();
+    }
+  });
+
+ hotkeys.add({
+    combo: 'd o',
+    description: 'Descriptor Overview',
+    callback: function() {
+      $scope.descriptorOverview();
+    }
+  });
+
+  hotkeys.add({
+    combo: 'f b',
+    description: 'Focus Branch',
+    callback: function(event) {
+      document.getElementById('branch_input').focus();
+      event.preventDefault();
+    }
+  });
+
+  hotkeys.add({
+    combo: 'f q',
+    description: 'Focus QuickBuild Configuration',
+    callback: function(event) {
+      document.getElementById('configuration_input').focus();
+      event.preventDefault();
+    }
+  });
+
+  hotkeys.add({
+    combo: 'f t',
+    description: 'Focus Custom Tests',
+    callback: function(event) {
+      document.getElementById('custom_tests_input').focus();
+      event.preventDefault();
+    }
+  });
+
+  hotkeys.add({
+    combo: 'f d',
+    description: 'Focus Descriptor',
+    callback: function(event) {
+      document.getElementById('descriptor').focus();
+      event.preventDefault();
+    }
+  });
+
+  function prepareStartSearch(event, search_label) {
+    $scope.search_label = search_label;
+    angular.element(document.getElementById('fuzzy_search')).removeClass('hidden');
+    raw_search_input_elem = document.getElementById('search_input');
+    raw_search_input_elem.focus();
+    angular.element(raw_search_input_elem).val('');
+    event.preventDefault();
+  }
+
+  function prepareEndSearch() {
+    resetSearch();
+    angular.element(document.getElementById('fuzzy_search')).addClass('hidden');
+    raw_search_input_elem = document.getElementById('search_input');
+    angular.element(raw_search_input_elem).val('');
+    event.preventDefault();
+  }
+
+  hotkeys.add({
+    combo: 's s',
+    description: 'Select Suite',
+    callback: function(event) {
+      $scope.startSearch($scope.suites.available);
+      prepareStartSearch(event, 'Select Suite');
+    }
+  });
+  hotkeys.add({
+    combo: 's c',
+    description: 'Select Configuration',
+    callback: function(event) {
+      $scope.startSearch($scope.configurations.available);
+      prepareStartSearch(event, 'Select Configuration');
+    }
+  });
+  hotkeys.add({
+    combo: 's t',
+    description: 'Select Test',
+    callback: function(event) {
+      $scope.startSearch($scope.tests.available);
+      prepareStartSearch(event, 'Select Test');
+    }
+  });
+
+  $scope.startSearch = function(items) {
+    $scope.search_items = items;
+    $scope.searcher = new Fuse($scope.search_items, {
+      keys: ['name'],
+      searchFn: SimpleSearcher
+    });
+  }
+
+  $scope.endSearch = function(calculate) {
+    if (calculate && $scope.search_selection) {
+      $scope.calculate($scope.search_selection);
+    }
+    prepareEndSearch();
+  }
+
+  function SimpleSearcher(pattern, options) {
+    this.patterns = pattern.split(' ');
+  }
+  SimpleSearcher.prototype.search = function(text) {
+    var indexes = _.map(this.patterns, function(p) {
+      return text.indexOf(p);
+    });
+    var isMatch = _.all(indexes, function(i) { return i > -1; })
+    var score = _.reduce(indexes, function(acc, v) { return acc + v }, 0);
+    return {
+      isMatch: isMatch,
+      score: score
+    };
+  };
+
+  $scope.moveSelection = function(event) {
+    if (event.keyCode != 38 && event.keyCode != 40) {
+      return;
+    }
+    if ($scope.search_result.length <= 1) {
+      return;
+    }
+    if (event.keyCode == 38) {
+      // up
+      if ($scope.search_selection_index == 0) {
+        return;
+      }
+      $scope.search_selection_index -= 1;
+    } else if (event.keyCode == 40) {
+      // down
+      if ($scope.search_selection_index == $scope.search_result.length - 1) {
+        return;
+      }
+      $scope.search_selection_index += 1;
+    }
+    $scope.search_selection = $scope.search_result[$scope.search_selection_index];
+  }
+
+  $scope.updateFuzzy = function() {
+    if (event.keyCode == 38 || event.keyCode == 40) {
+      return;
+    }
+    $scope.search_result = $scope.searcher.search($scope.search_input);
+    if ($scope.search_result.length > 0) {
+      $scope.search_selection_index = 0;
+      $scope.search_selection = $scope.search_result[$scope.search_selection_index];
+    }
+  }
 
 }
 
@@ -289,6 +464,18 @@ function SystemTestsController($http, $scope, $timeout, $log, hotkeys) {
           if(event.which === 13) {
             scope.$apply(function(){
               scope.$eval(attrs.ngEnter, {'event': event});
+            });
+            event.preventDefault();
+          }
+        });
+      };
+    })
+    .directive('ngEscape', function() {
+      return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+          if(event.which === 27) {
+            scope.$apply(function(){
+              scope.$eval(attrs.ngEscape, {'event': event});
             });
             event.preventDefault();
           }
