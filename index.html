@@ -8,15 +8,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.0.2/js-yaml.js"></script>
     <script src="js/js-base64.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.css" />
-    <link rel="stylesheet" href="css/simplegrid.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body ng-controller="SystemTestsController">
-    <div id="wrapper" class="grid grid-pad">
+    <div id="wrapper" class="grid">
 
-
-      <span class="section col-1-1">
+      <span class="section">
         <span>Branch</span>
         <input ng-model="branch" ng-enter="loadSuitesYaml()">
 
@@ -26,7 +24,7 @@
         <button ng-disabled="branch.length === 0 || descriptor.length === 0"
                 ng-click="launchConfiguration()">Launch</button>
 
-        <span class="push-right">
+        <span id="top_right" class="push-right">
           <a href="">Variables</a>
           <span>|</span>
           <a href="" ng-click="descriptorOverview()">Descriptor Overview</a>
@@ -35,12 +33,12 @@
         </span>
       </span>
       <textarea readonly
-                class="section col-1-1"
+                class="section"
                 ng-model="descriptor">
       </textarea>
 
-      <div class="section col-1-1">
-        <div class="col-1-2">
+      <div class="section">
+        <div class="col left">
           <h1>Suites</h1>
           <div ng-repeat="s in suites.available track by s.name"
                ng-click="calculate(s)"
@@ -52,7 +50,7 @@
             </a>
           </div>
         </div>
-        <div id="overview" class="col-1-2">
+        <div id="overview" class="col">
           <div ng-repeat="t in tests.all" id="{{t.type}}_{{t.name}}" class="hidden">
             <h1>{{t.name}}</h1>
             <ul><li ng-repeat="t2 in t.tests">
@@ -102,8 +100,8 @@
         </div>
       </div>
 
-      <div class="section col-1-1">
-        <div class="col-1-2">
+      <div class="section">
+        <div class="col left">
           <h1>Configurations</h1>
           <div ng-repeat="c in configurations.available track by c.name"
                ng-click="calculate(c)"
@@ -115,24 +113,22 @@
             <a href="">{{c.name}}</a>
           </div>
         </div>
-        <div class="col-1-2">
-          <div class="col-1-1">
-            <h1>
-              <span>Tests</span>
-              <button ng-click="applyCustom()" class="push-right">Apply Custom</button>
-            </h1>
-            <input id="custom_tests_input"
-                   ng-model="current_custom_tests"
-                   ng-enter="addCustomTests()" class="col-1-1">
-            <div ng-repeat="t in tests.available track by t.name"
-                 ng-click="calculate(t)"
-                 ng-mouseenter="overview(t, true)"
-                 ng-mouseleave="overview(t, false)"
-                 class="item">
-              <input type="checkbox"
-                     ng-checked="t.class == 'selected'">
-              <a href="">{{t.name}}</a>
-            </div>
+        <div class="col">
+          <h1>
+            <span>Tests</span>
+            <button ng-click="applyCustom()" class="push-right">Apply Custom</button>
+          </h1>
+          <input id="custom_tests_input"
+                 ng-model="current_custom_tests"
+                 ng-enter="addCustomTests()" class="full">
+          <div ng-repeat="t in tests.available track by t.name"
+               ng-click="calculate(t)"
+               ng-mouseenter="overview(t, true)"
+               ng-mouseleave="overview(t, false)"
+               class="item">
+            <input type="checkbox"
+                   ng-checked="t.class == 'selected'">
+            <a href="">{{t.name}}</a>
           </div>
         </div>
       </div>
