@@ -113,11 +113,14 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 #overview {
+    min-height: 200px;
+}
+
+#overview > div {
     margin-top: 5px;
     margin-bottom: 5px;
     padding: 5px;
-    border: 1px solid;
-    min-height: 150px;
+    border: 1px solid #a9a9a9;
 }
 
 #configuration_input {
