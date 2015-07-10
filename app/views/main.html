@@ -35,7 +35,7 @@
 
     <div class="col left-col">
       <h1>Suites</h1>
-      <stl-items items="suites.available">
+      <stl-items items="suites.all">
     </div>
 
     <div id="overview" class="col">
@@ -64,8 +64,11 @@
       <div ng-repeat="s in suites.all"
            ng-show="s.overviewShown">
         <h1>{{s.name}}</h1>
-        <div><span>Configuration: </span><span>{{s.handlerConfiguration}}</span></div>
-        <div><span>Environment: </span><span>{{s.env}}</span></div>
+        <div ng-show="s.handlerConfiguration">
+            <div><span>Configuration: </span><span>{{s.handlerConfiguration}}</span></div>
+            <div><span>Environment: </span><span>{{s.env}}</span></div>
+        </div>
+        <div ng-show="s.requires"><span>Requires: </span><span>{{s.requires}}</span></div>
         <div>Tests:</div>
         <ul><li ng-repeat="t in s.tests">
           {{t}}
@@ -87,8 +90,11 @@
       <div ng-show="descriptorOverviewShown" >
         <div ng-repeat="s in suites.selected">
           <h1>{{s.name}}</h1>
-          <div><span>Configuration: </span><span>{{s.handlerConfiguration}}</span></div>
-          <div><span>Environment: </span><span>{{s.env}}</span></div>
+          <div ng-show="s.handlerConfiguration">
+            <div><span>Configuration: </span><span>{{s.handlerConfiguration}}</span></div>
+            <div><span>Environment: </span><span>{{s.env}}</span></div>
+          </div>
+          <div ng-show="s.requires"><span>Requires: </span><span>{{s.requires}}</span></div>
           <div>Tests:</div>
           <ul><li ng-repeat="t in s.tests">
             {{t}}
@@ -98,6 +104,7 @@
           <h1>{{s.handlerConfiguration.name}}</h1>
           <div><span>Configuration: </span><span>{{s.handlerConfiguration.name}}</span></div>
           <div><span>Environment: </span><span>{{s.handlerConfiguration.env}}</span></div>
+          <div><span>Requires: </span><span>{{s.requires}}</span></div>
           <div>Tests:</div>
           <ul><span ng-repeat="t in s.tests">
                 <li ng-repeat="t2 in t.tests">
@@ -113,7 +120,7 @@
 
     <div class="col left-col">
       <h1>Configurations</h1>
-      <stl-items items="configurations.available" input="radio">
+      <stl-items items="configurations.all" input="radio">
     </div>
 
     <div class="col">
@@ -128,7 +135,7 @@
              stl-enter="addCustomTests()"
              stl-escape="loseFocus()"
              class="full">
-      <stl-items items="tests.available" input="checkbox">
+      <stl-items items="tests.all" input="checkbox">
     </div>
   </div>
 

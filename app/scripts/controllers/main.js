@@ -28,16 +28,12 @@ angular.module('app')
       $scope.launchConfigurationDisabled = true;
       $scope.suites.selected = [];
       $scope.customSuites = [];
-      $scope.usedEnvs = [];
       $scope.descriptor = '';
       $scope.descriptorOverviewShown = false;
       $scope.currentCustom = {
         tests: []
       };
       $scope.currentCustomTests = '';
-      $scope.suites.available = $scope.suites.all || [];
-      $scope.configurations.available = $scope.configurations.all || [];
-      $scope.tests.available = $scope.tests.all || [];
       if ($scope.configurations.all) {
         _.forEach($scope.configurations.all, function(v) {
           v.selected = false;
@@ -74,8 +70,6 @@ angular.module('app')
     $scope.calculate = function(item) {
       if (item.type === 'suite') {
         $scope.suites.selected.push(item);
-        $scope.usedEnvs.push(item.env);
-        $scope.usedEnvs = _.uniq($scope.usedEnvs);
         $scope.overview(item, false);
       } else if (item.type === 'configuration') {
         $scope.currentCustom.handlerConfiguration = item;
@@ -98,17 +92,6 @@ angular.module('app')
     };
 
     var refresh = function() {
-      $scope.suites.available = _.filter($scope.suites.all, function(v) {
-        return !_.contains($scope.usedEnvs, v.env);
-      });
-      $scope.configurations.available = _.filter($scope.configurations.all, function(v) {
-        return !_.contains($scope.usedEnvs, v.env);
-      });
-      $scope.tests.available = _.filter($scope.tests.all, function(v) {
-        return !_.any($scope.customSuites, function(customSuite) {
-          return _.contains(customSuite.tests, v);
-        });
-      });
       $scope.descriptor = descriptorBuilder.build($scope.suites.selected,
                                                   $scope.customSuites);
       $scope.applyCustomDisabled = $scope.currentCustom.tests.length === 0 ||
@@ -133,8 +116,6 @@ angular.module('app')
       if ($scope.applyCustomDisabled) {
         return;
       }
-      $scope.usedEnvs.push($scope.currentCustom.handlerConfiguration.env);
-      $scope.usedEnvs = _.uniq($scope.usedEnvs);
       $scope.customSuites.push($scope.currentCustom);
       $scope.overview($scope.currentCustom.handlerConfiguration, false);
       _.forEach($scope.currentCustom.tests, function(v) {

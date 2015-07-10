@@ -23,9 +23,9 @@ describe('Directives: stlHotKeys', function () {
   var testKeySequence = function(keySequence, name, expectedArg1, expectedArg2)  {
     it('should trigger ' + name + 'on "' + keySequence + '" key sequence', function () {
       scope.expectedCalled = false;
-      scope.suites = {available: 'suite'};
-      scope.configurations = {available: 'configuration'};
-      scope.tests = {available: 'test'};
+      scope.suites = {all: 'suite'};
+      scope.configurations = {all: 'configuration'};
+      scope.tests = {all: 'test'};
       scope[name] = function(arg1, arg2) {
         scope.expectedCalled = true;
         scope.arg1 = arg1;

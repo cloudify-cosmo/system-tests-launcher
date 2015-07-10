@@ -37,7 +37,7 @@
 
         var searchCallback = function(items, searchLabel) {
           return function(event) {
-            $scope.startSearch($scope[items].available, searchLabel);
+            $scope.startSearch($scope[items].all, searchLabel);
             event.preventDefault();
           };
         };

@@ -50,7 +50,9 @@ angular.module('app.service.suitesYAMLProcessor', [])
         delete v.handler_configuration;
         /*jshint +W106 */
         var handlerConfiguration = rawHandlerConfigurations[v.handlerConfiguration];
-        v.env = handlerConfiguration.env;
+        if (handlerConfiguration) {
+          v.env = handlerConfiguration.env;
+        }
         v.type = 'suite';
         v.tests = _.flatten(_.map(v.tests, function(test) {
           var testGroup = _.find(tests, function(v) {
