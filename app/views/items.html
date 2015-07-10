@@ -1,0 +1,10 @@
+<div ng-repeat="item in items track by item.name"
+     ng-click="calculate(item)"
+     ng-mouseenter="overview(item, true)"
+     ng-mouseleave="overview(item, false)"
+     class="item">
+    <input type="{{type}}"
+           ng-checked="item.selected"
+           ng-show="type.length > 0">
+    <a href="">{{item.name}}</a>
+</div>
