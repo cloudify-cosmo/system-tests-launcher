@@ -2,6 +2,15 @@ machine:
   node:
     version: 0.10.40
 
+checkout:
+  post:
+    - >
+      if [ -n "$CI_PULL_REQUEST" ]; then
+        PR_ID=${CI_PULL_REQUEST##*/}
+        git fetch origin +refs/pull/$PR_ID/merge:
+        git checkout -qf FETCH_HEAD
+      fi
+
 dependencies:
   override:
     - gem update --system
@@ -13,3 +22,9 @@ dependencies:
 test:
   override:
     - grunt
+
+deployment:
+  release:
+    tag: /.*/
+    commands:
+      - (true)
